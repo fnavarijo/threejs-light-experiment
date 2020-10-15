@@ -36,8 +36,8 @@ export default {
 
     const plane = jengaScene.addPlane({
       dimensions: {
-        width: 10,
-        height: 10,
+        width: 20,
+        height: 20,
       },
       color: 0x008080,
       side: THREE.DoubleSide,
