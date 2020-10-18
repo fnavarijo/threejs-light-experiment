@@ -1,5 +1,9 @@
-import * as THREE from 'three';
+import enable3d from 'enable3d';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+
+import { withPhysics } from './physics';
+
+const THREE = enable3d.THREE;
 
 const pipe = (...fns) => x => fns.reduce((y, f) => f(y), x);
 
@@ -165,12 +169,19 @@ const withOrbitControls = sandbox => {
 
 const withAnimation = sandbox => {
   // TODO: validate if controls exist before updating
-  const { controls, renderer, scene, camera } = sandbox;
+  const { controls, renderer, scene, camera, physics } = sandbox;
   
+  // TODO: find a way to merge animate depending on scene configured.
+  const clock = new THREE.Clock();
+
   return {
     ...sandbox,
     animate () {
       controls.update();
+
+      physics.update(clock.getDelta() * 1000);
+      physics.updateDebugger();
+
       renderer.render(scene, camera);
 
       this.animate = this.animate.bind(this);
@@ -192,6 +203,7 @@ const createJengaScene = ({
   withRenderer({ clientWidth, clientHeight, addShadow }),
   // withAmbientLight,
   // withPointLight,
+  withPhysics,
   withSpotLight({ addShadow, lightColor: iluminationColor }),
   withPlane({ addShadow }),
   withOrbitControls,

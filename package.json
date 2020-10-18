@@ -6,6 +6,8 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@enable3d/ammo-physics": "^0.20.0",
+    "enable3d": "^0.20.0",
     "lodash": "^4.17.20",
     "three": "^0.118.3",
     "vue": "^3.0.0-beta.15"
